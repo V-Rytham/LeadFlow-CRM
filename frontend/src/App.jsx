@@ -6,8 +6,8 @@ import { Routes, Route, Navigate } from "react-router-dom"
 import AddLead from "./pages/AddLead";
 import EditLead from "./pages/EditLead";
 import Reports from "./pages/Reports";
-import HomePage from "./pages/Homepage";
-import Signin from "./pages/Signin";
+import HomePage from "./pages/HomePage.jsx";
+import Signin from "./pages/Signin.jsx";
 import { useEffect } from "react";
 import UserContext from "./AuthContext";
 import Signup from "./pages/Signup";
@@ -19,7 +19,7 @@ function App() {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const response = await axios.get("http://localhost:8080/me", { withCredentials: true })
+        const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/me`, { withCredentials: true })
         setUser(response.data.user);
       } catch (error) {
         setUser(null)

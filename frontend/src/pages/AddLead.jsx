@@ -27,8 +27,9 @@ function AddLead() {
 
     try {
       await axios.post(
-        "http://localhost:8080/api/lead",
-        formData
+        `${import.meta.env.VITE_API_BASE_URL}/api/lead`,
+        formData,
+        {withCredentials: true}
       );
 
       alert("Lead Added Successfully");

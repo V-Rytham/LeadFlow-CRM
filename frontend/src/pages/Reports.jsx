@@ -9,7 +9,8 @@ function Reports() {
     const fetchLeads = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:8080/api/all"
+          `${import.meta.env.VITE_API_BASE_URL}/api/all`,
+          {withCredentials: true}
         );
 
         setLeads(response.data.data);

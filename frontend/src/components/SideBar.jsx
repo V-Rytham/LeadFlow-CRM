@@ -23,7 +23,7 @@ function SideBar() {
         <button
           onClick={() => {
             setActive("Dashboard")
-            naviagte("/dashboard")
+            navigate("/dashboard")
           }}
           className={getButtonClass("Dashboard")}
         >

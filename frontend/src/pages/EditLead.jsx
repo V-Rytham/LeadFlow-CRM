@@ -49,8 +49,9 @@ function EditLead() {
       setSaving(true);
 
       await axios.put(
-        `http://localhost:8080/api/update-lead/${id}`,
-        lead
+        `${import.meta.env.VITE_API_BASE_URL}/api/update-lead/${id}`,
+        lead, 
+        {withCredentials: true}
       );
 
       alert("Lead updated successfully");

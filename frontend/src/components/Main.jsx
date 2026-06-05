@@ -47,7 +47,8 @@ function Main() {
   const handleDelete = async (id) => {
     try {
       await axios.delete(
-        `http://localhost:8080/api/lead/${id}`
+        `${import.meta.env.VITE_API_BASE_URL}/api/lead/${id}`,
+        {withCredentials: true}
       );
 
       const updatedLeads = leads.filter(
@@ -65,7 +66,8 @@ function Main() {
     const fetchDetails = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:8080/api/all"
+          `${import.meta.env.VITE_API_BASE_URL}/api/all`,
+          {withCredentials: true}
         );
 
         const leadsData = response.data.data;
