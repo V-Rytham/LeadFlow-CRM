@@ -13,6 +13,8 @@ export const signup = async (req, res) => {
         const token = genToken(user)
         res.cookie("token", token, {
             httpOnly: true,
+            sameSite: none,
+            secure: true,
             maxAge: 7 * 24 * 60 * 60 * 1000
         });
         const userResponse = {
@@ -43,6 +45,8 @@ export const signin = async (req, res) => {
             }
             const token = genToken(user)
             res.cookie("token", token, {
+                sameSite: "none",
+                secure: true,
                 httpOnly: true,
                 maxAge: 7 * 24 * 60 * 60 * 1000
             });
@@ -64,6 +68,8 @@ export const signin = async (req, res) => {
             }
             const token = genToken(user)
             res.cookie("token", token, {
+                sameSite: "none",
+                secure: true,
                 httpOnly: true,
                 maxAge: 7 * 24 * 60 * 60 * 1000
             });
@@ -82,6 +88,8 @@ export const signin = async (req, res) => {
 export const logout = (req, res) => {
   res.cookie("token", "", {
     httpOnly: true,
+    sameSite: "none",
+    secure: true,
     expires: new Date(0),
   });
 
