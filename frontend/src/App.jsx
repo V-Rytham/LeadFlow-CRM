@@ -11,7 +11,7 @@ import Signin from "./pages/Signin.jsx";
 import { useEffect } from "react";
 import UserContext from "./AuthContext";
 import Signup from "./pages/Signup";
-import { ToastContainer } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 function App() {
   const [user, setUser] = useState(null)
@@ -22,6 +22,10 @@ function App() {
         const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/me`, { withCredentials: true })
         setUser(response.data.user);
       } catch (error) {
+        if (localStorage.getItem("wasLoggedIn")) {
+          toast.error("Invalid/expired session")
+          localStorage.removeItem("wasLoggedIn")
+        }
         setUser(null)
       } finally {
         setLoading(false);

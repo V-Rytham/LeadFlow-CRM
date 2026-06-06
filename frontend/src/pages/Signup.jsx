@@ -60,8 +60,9 @@ function Signup() {
       );
 
       setUser(response.data.userResponse);
-
+      localStorage.setItem("wasLoggedIn", "true")
       navigate("/");
+
     } catch (error) {
       setError(
         error?.response?.data?.message ||

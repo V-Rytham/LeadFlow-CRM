@@ -61,7 +61,7 @@ function Signin() {
       );
 
       setUser(response.data.userResponse);
-            
+      localStorage.setItem("wasLoggedIn","true");
 
       // navigate("/"); 
     } catch (error) {
