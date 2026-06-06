@@ -10,10 +10,10 @@ export const signup = async (req, res) => {
         }
         const hashedpassword = await bcrypt.hash(password, 10)
         const user = await User.create({userName, email, password: hashedpassword, role : role ? role : "admin"})
-        const token = genToken(user)
+        const token = await genToken(user)
         res.cookie("token", token, {
             httpOnly: true,
-            sameSite: none,
+            sameSite: "none",
             secure: true,
             maxAge: 7 * 24 * 60 * 60 * 1000
         });
@@ -43,7 +43,7 @@ export const signin = async (req, res) => {
             if (!match) {
                 return res.status(400).json({message: `Incorrect password`})
             }
-            const token = genToken(user)
+            const token = await genToken(user)
             res.cookie("token", token, {
                 sameSite: "none",
                 secure: true,
