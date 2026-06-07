@@ -1,17 +1,21 @@
 # LeadFlow CRM
 
-LeadFlow CRM is a full-stack lead management application built with React, Vite, Express, and MongoDB. It provides secure email/username authentication, protected client-side routing, lead CRUD management, lead analytics, and CSV export.
+LeadFlow CRM is a full-stack customer relationship management application built with React, Vite, Express, and MongoDB. The app supports secure signup/signin, authenticated session validation, lead CRUD operations, dashboard analytics, search/filtering, pagination, and CSV export.
 
 ## Features
 
-- User authentication with signup / signin
-- JWT auth stored in HTTP-only cookies
+- User authentication with signup and signin
+- JWT stored in HTTP-only cookies
+- Session validation via `/me` endpoint
 - Protected React routes for authenticated users
-- Lead dashboard with search, filtering, and sorting
-- Add, edit, and delete leads
-- Lead analytics with status chart visualization
-- Export leads as CSV
-- Responsive UI with Tailwind CSS
+- Home landing page after login
+- Dashboard with lead stats cards and recent leads
+- Add, edit, delete leads with secure backend routes
+- Search by name or company, status filter, alphabetical sort
+- Paginated lead fetching and table view
+- Download leads as CSV
+- Reports page for aggregated lead data
+- Responsive UI with Tailwind CSS and toast notifications
 
 ## Tech Stack
 
@@ -29,58 +33,77 @@ LeadFlow CRM is a full-stack lead management application built with React, Vite,
   - Node.js + Express
   - MongoDB + Mongoose
   - JWT authentication
-  - Cookie-based auth
-  - CORS support
+  - Cookie-based auth with `cookie-parser`
+  - CORS support for frontend communication
 
 ## Repository Structure
 
 - backend
-  - app.js — Express server setup
-  - `controllers/` — auth, lead operations, and middleware
+  - `app.js` — Express server setup, CORS, cookies, auth, and routes
+  - `controllers/` — signup/signin, auth middleware, lead CRUD, search, pagination, and token generation
   - `models/` — `User` and `Lead` schemas
   - `routes/` — auth and lead API routes
 
 - frontend
-  - `src/App.jsx` — route protection and auth context
-  - `src/AuthContext.jsx` — user context provider
-  - `src/pages/` — Signin, Signup, HomePage, Dashboard, Reports, AddLead, EditLead
-  - `src/components/` — sidebar, lead table, analytics chart, info cards, sign-out
+  - `src/App.jsx` — protected routes and user session loading
+  - `src/AuthContext.jsx` — auth context provider
+  - `src/pages/` — `HomePage`, `Dashboard`, `Reports`, `AddLead`, `EditLead`, `Signin`, `Signup`
+  - `src/components/` — `SideBar`, `Main`, `InfoCards`, `LeadStatusChart`, `Pagination`, `SignOutButton`
+
+## Environment Setup
+
+### Backend
+
+Create `backend/.env` with:
+
+```env
+MONGODB_URI=<your-mongodb-connection-string>
+PORT=8080
+CLIENT_URL=http://localhost:5173
+JWT_SECRET=<your_jwt_secret>
+```
+
+### Frontend
+
+Create `frontend/.env` with:
+
+```env
+VITE_API_BASE_URL=http://localhost:8080
+```
 
 ## Getting Started
 
 ### Backend
 
-1. `cd backend`
-2. `npm install`
-3. Create .env with:
-   - `MONGODB_URI`
-   - `PORT=8080`
-   - `CLIENT_URL=http://localhost:5173`
-   - `JWT_SECRET=your_jwt_secret`
-4. `node app.js`
+```bash
+cd backend
+npm install
+node app.js
+```
 
 ### Frontend
 
-1. `cd frontend`
-2. `npm install`
-3. `npm run dev`
-
-Frontend expects the backend API at `http://localhost:8080`.
+```bash
+cd frontend
+npm install
+npm run dev
+```
 
 ## Run Locally
 
-From project root:
+From the project root:
 
 ```bash
-cd backend && npm install
-cd ../frontend && npm install
-node ../backend/app.js
+npm --prefix backend install
+npm --prefix frontend install
+node backend/app.js
 npm --prefix frontend run dev
 ```
 
 ## Notes
 
-- Auth uses a secure cookie token and `/me` session endpoint.
-- Protected routes redirect unauthenticated users to `/signin`.
-- Toast notifications are provided by `react-toastify`.
-- Lead analytics are powered by `recharts`.
+- The frontend uses `VITE_API_BASE_URL` to connect to the backend API.
+- The backend exposes authentication routes under `/api/auth` and lead routes under `/api`.
+- The app uses protected routing to keep `/`, `/dashboard`, `/add-lead`, `/edit-lead/:id`, and `/reports` available only to authenticated users.
+- CSV export is handled client-side using `papaparse`.
+- Pagination and cursor-based lead fetch support is available through `/api/lead-by-count`.
