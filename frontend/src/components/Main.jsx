@@ -3,7 +3,7 @@ import InfoCards from "./InfoCards";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Papa from "papaparse"
-
+import Pagination from "./pagination";
 function Main() {
   const navigate = useNavigate();
 
@@ -17,6 +17,13 @@ function Main() {
   const [search, setSearch] = useState("");
   const [filterStatus, setFilterStatus] = useState("All");
   const [sortOrder, setSortOrder] = useState("asc");
+
+
+  // pagination
+  const [cursor, setCurrentCursor] = useState(null)
+  const [prevCursors, setPreviousCursors] = useState([])
+
+
 
   const calculateStats = (data) => {
     setTotalLeads(data.length);
@@ -66,13 +73,27 @@ function Main() {
     const fetchDetails = async () => {
       try {
         const response = await axios.get(
-          `${import.meta.env.VITE_API_BASE_URL}/api/all`,
-          {withCredentials: true}
+            `${import.meta.env.VITE_API_BASE_URL}/api/lead-by-count`,
+            {
+                params:{
+                    cursor,
+                    direction:"next"
+                },
+                withCredentials:true
+            }
         );
 
         const leadsData = response.data.data;
 
         setLeads(leadsData);
+        if(leadsData.length > 0){
+
+                setCurrentCursor(
+                    leadsData[leadsData.length-1]._id
+                );
+
+            }
+
         calculateStats(leadsData);
       } catch (error) {
         console.error("Error fetching leads:", error);
@@ -81,6 +102,7 @@ function Main() {
 
     fetchDetails();
   }, []);
+  useEffect (() => calculateStats(leads), [leads])
 
   const filteredLeads = leads
     .filter((lead) => {
@@ -359,6 +381,15 @@ function Main() {
 
         </div>
       </div>
+      <Pagination
+        currentCursor={cursor}
+        setCurrentCursor={setCurrentCursor}
+
+        prevCursors={prevCursors}
+        setPrevCursors={setPreviousCursors}
+
+        setLeads={setLeads}
+      />
     </div>
   );
 }

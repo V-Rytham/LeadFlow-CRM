@@ -7,3 +7,5 @@ backend/node_modules/
 # Environment variables
 frontend/.env
 backend/.env
+
+seed.js
