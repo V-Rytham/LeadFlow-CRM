@@ -7,7 +7,7 @@ import cors from "cors";
 import authRouter from "./routes/auth.routes.js"
 import cookieParser from "cookie-parser";
 import protect from "./controllers/authorise.controller.js";
-import addToDB from "./seed.js";
+// import addToDB from "./seed.js";
 const app = express();
 
 const port = process.env.PORT || 3000;
