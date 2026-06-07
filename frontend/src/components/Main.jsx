@@ -3,7 +3,7 @@ import InfoCards from "./InfoCards";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Papa from "papaparse"
-import Pagination from "./pagination";
+import Pagination from "./Pagination";
 function Main() {
   const navigate = useNavigate();
 
